@@ -49,3 +49,32 @@ class Solution {
         return max;
     }
 }
+
+---------------------------------------------------------------------
+
+class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int n=arr.length;
+        int[] dp=new int[n];
+        int size=0;
+        for(int i=0;i<n;i++){
+            int idx=binary(arr[i],dp,size);
+            if(idx==size){
+                dp[idx]=arr[i];
+                size++;
+            }
+            else dp[idx]=arr[i];
+        }
+        return size;
+    }
+    public int binary(int n,int[] dp,int size){
+        if(size==0) return 0;
+        int l=0,h=size;
+        while(l<h){
+            int m=l+(h-l)/2;
+            if(dp[m]<n) l=m+1;
+            else h=m;
+        }
+        return l;
+    }
+}
