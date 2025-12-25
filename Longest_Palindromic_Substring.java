@@ -84,13 +84,30 @@ class Solution {
         }
         return true;
     }
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try (FileWriter fw = new FileWriter("display_runtime.txt")) {
-                fw.write("000");
-            } catch (IOException e) {
-                e.printStackTrace();
+}
+
+--------------------------------------------------------------------------------------------
+
+class Solution {
+    public String longestPalindrome(String s) {
+        int n=s.length();
+        int maxlen=1,start=0;
+        for(int i=0;i<n;i++){
+            int even=expand(s,i,i);
+            int odd=expand(s,i,i+1);
+            int max=Math.max(even,odd);
+            if(max>maxlen){
+                maxlen=max;
+                start=i-(max-1)/2;
             }
-        }));
+        }
+        return s.substring(start,start+maxlen);
+    }
+    public int expand(String s,int i,int j){
+        while(i>=0 && j<s.length() && s.charAt(i)==s.charAt(j)){
+            i--;
+            j++;
+        }
+        return j-i-1;
     }
 }
