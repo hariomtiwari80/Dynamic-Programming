@@ -25,3 +25,30 @@ class Solution {
 
 -----------------------------------------------------------------------------------------
 
+class Solution {
+    public boolean isMatch(String s, String p) {
+        HashMap<String,Boolean> dp=new HashMap<>();
+        return solve(s,p,0,0,dp);
+    }
+    public boolean solve(String s,String p,int i,int j,HashMap<String,Boolean> dp){
+        if(j==p.length()){
+            return i==s.length();
+        }
+        String t=i+","+j;
+        if(dp.containsKey(t)) return dp.get(t);
+        boolean b=false;
+        if(i<s.length() && (s.charAt(i)==p.charAt(j) || p.charAt(j)=='.')) b=true;
+        boolean ans;
+        if(j<p.length()-1 && p.charAt(j+1)=='*'){
+            boolean skip=solve(s,p,i,j+2,dp);
+            boolean take=false;
+            if(i<s.length() && (s.charAt(i)==p.charAt(j) || p.charAt(j)=='.')){
+                take=solve(s,p,i+1,j,dp);
+            }
+            ans=take || skip;
+        }
+        else ans = b && solve(s,p,i+1,j+1,dp);
+        dp.put(t,ans);
+        return ans;
+    }
+}
