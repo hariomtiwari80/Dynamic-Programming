@@ -37,3 +37,27 @@ class Solution {
         return Math.max(take,skip);
     }
 }
+
+-------------------------------------------------------------------------------------
+
+class Solution {
+    public int wiggleMaxLength(int[] arr) {
+        int n=arr.length;
+        int[][] dp=new int[2][n];
+        for(int[] a:dp) Arrays.fill(a,1);
+        int ans=1;
+        for(int i=1;i<n;i++){
+            for(int j=i-1;j>=0;j--){
+                if((arr[i]-arr[j])<0){
+                    dp[1][i]=Math.max(dp[1][i],1+dp[0][j]);
+                    ans=Math.max(ans,dp[1][i]);
+                }
+                else if((arr[i]-arr[j]>0)){
+                    dp[0][i]=Math.max(dp[0][i],1+dp[1][j]);
+                    ans=Math.max(ans,dp[0][i]);
+                }
+            }
+        } 
+        return ans;
+    }
+}
